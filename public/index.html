@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Feedback Analyzer</title>
+</head>
+<body>
+  <h1>Feedback Analyzer</h1>
+
+  <textarea id="text" rows="6" cols="60" placeholder="Write feedback here..."></textarea>
+  <br><br>
+  <button onclick="send()">Analyze</button>
+
+  <h3>AI Result:</h3>
+  <pre id="result"></pre>
+
+  <script>
+    async function send() {
+      const text = document.getElementById("text").value;
+
+      const res = await fetch("/analyze", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text })
+      });
+
+      const data = await res.json();
+      document.getElementById("result").innerText = data.summary;
+    }
+  </script>
+</body>
+</html>
